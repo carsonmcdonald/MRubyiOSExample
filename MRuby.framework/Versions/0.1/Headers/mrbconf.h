@@ -42,4 +42,11 @@ typedef intptr_t mrb_sym;
 # define TRUE 1
 #endif
 
+#ifdef _MSC_VER
+# define inline __inline
+# define snprintf _snprintf
+# define isnan _isnan
+# define isinf(n) (!_finite(n) && !_isnan(n))
+#endif
+
 #endif  /* MRUBYCONF_H */

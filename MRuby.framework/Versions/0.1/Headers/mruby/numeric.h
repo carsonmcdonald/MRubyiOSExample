@@ -7,17 +7,27 @@
 #ifndef MRUBY_NUMERIC_H
 #define MRUBY_NUMERIC_H
 
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
 #include <limits.h>
 
-#define RSHIFT(x,y) ((x)>>(int)(y))
-#define FIXNUM_MAX (LONG_MAX>>1)
-#define FIXNUM_MIN RSHIFT((long)LONG_MIN,1)
-#define POSFIXABLE(f) ((f) < FIXNUM_MAX+1)
-#define NEGFIXABLE(f) ((f) >= FIXNUM_MIN)
+#define POSFIXABLE(f) ((f) <= INT_MAX)
+#define NEGFIXABLE(f) ((f) >= INT_MIN)
 #define FIXABLE(f) (POSFIXABLE(f) && NEGFIXABLE(f))
 
 mrb_value mrb_flt2big(mrb_state *mrb, mrb_float d);
 void mrb_num_zerodiv(mrb_state *mrb);
 mrb_value mrb_fix2str(mrb_state *mrb, mrb_value x, int base);
+
+mrb_value mrb_fixnum_plus(mrb_state *mrb, mrb_value x, mrb_value y);
+mrb_value mrb_fixnum_minus(mrb_state *mrb, mrb_value x, mrb_value y);
+mrb_value mrb_fixnum_mul(mrb_state *mrb, mrb_value x, mrb_value y);
+mrb_value mrb_num_div(mrb_state *mrb, mrb_value x, mrb_value y);
+
+#if defined(__cplusplus)
+}  /* extern "C" { */
+#endif
 
 #endif  /* MRUBY_NUMERIC_H */

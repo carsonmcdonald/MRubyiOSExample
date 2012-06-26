@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 
+#include "mruby/mruby.h"
 #include "mruby/mruby/proc.h"
 #include "mruby/mruby/dump.h"
 #include "mruby/mruby/class.h"

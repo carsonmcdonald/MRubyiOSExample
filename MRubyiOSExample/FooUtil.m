@@ -75,7 +75,7 @@ static mrb_value foo_print_message(mrb_state* mrb, mrb_value obj)
     if (mrb_nil_p(message)) {
         debugBlock(@"");
     } else {
-        debugBlock([NSString stringWithFormat:@"Foo::printMessage => %s", mrb_str_ptr(message)->buf]);
+        debugBlock([NSString stringWithFormat:@"Foo::printMessage => %s", mrb_str_ptr(message)->ptr]);
     }
     
     return mrb_nil_value();
@@ -174,14 +174,14 @@ mrb_value bar_looper_block(mrb_state *mrb, mrb_value obj)
     mrb_value bar_x = mrb_funcall_argv(mrb, barInstance, "x", 0, NULL); 
     mrb_value bar_y = mrb_funcall_argv(mrb, barInstance, "y", 0, NULL);
     
-    debugBlock([NSString stringWithFormat:@"Bar update location before => %s, %d, %d", mrb_str_ptr(bar_name)->buf, bar_x.value.i, bar_x.value.i]);
+    debugBlock([NSString stringWithFormat:@"Bar update location before => %s, %d, %d", mrb_str_ptr(bar_name)->ptr, bar_x.value.i, bar_x.value.i]);
     
     mrb_funcall_argv(mrb, barInstance, "move_bar", 0, NULL);
     
     bar_x = mrb_funcall_argv(mrb, barInstance, "x", 0, NULL); 
     bar_y = mrb_funcall_argv(mrb, barInstance, "y", 0, NULL);
     
-    debugBlock([NSString stringWithFormat:@"Bar update location after => %s, %d, %d", mrb_str_ptr(bar_name)->buf, bar_x.value.i, bar_x.value.i]);
+    debugBlock([NSString stringWithFormat:@"Bar update location after => %s, %d, %d", mrb_str_ptr(bar_name)->ptr, bar_x.value.i, bar_x.value.i]);
 }
 
 @end

@@ -81,12 +81,18 @@ static mrb_value foo_print_message(mrb_state* mrb, mrb_value obj)
     return mrb_nil_value();
 }
 
-mrb_value bar_looper_block(mrb_state *mrb, mrb_value obj)
+static mrb_value bar_execute_with(mrb_state *mrb, mrb_value obj)
 {
-    NSLog(@"looper block");
-    // todo
+    mrb_value x, y;
+    mrb_get_args(mrb, "oo", &x, &y);
     
-    return mrb_nil_value();
+    debugBlock([NSString stringWithFormat:@"Values from within block: x=%d, y=%d", x.value.i, y.value.i]);
+    
+    mrb_value count_value;
+    count_value.tt = MRB_TT_FIXNUM;
+    count_value.value.i = x.value.i + y.value.i;
+    
+    return mrb_Integer(mrb, count_value);
 }
 
 @implementation FooUtil
@@ -182,6 +188,18 @@ mrb_value bar_looper_block(mrb_state *mrb, mrb_value obj)
     bar_y = mrb_funcall_argv(mrb, barInstance, mrb_intern(mrb, "y"), 0, NULL);
     
     debugBlock([NSString stringWithFormat:@"Bar update location after => %s, %d, %d", mrb_str_ptr(bar_name)->ptr, bar_x.value.i, bar_x.value.i]);
+}
+
+- (void)blockExample
+{
+    struct RProc *b = mrb_proc_new_cfunc(mrb, bar_execute_with);
+    mrb_value proc = mrb_obj_value(b);
+    
+    mrb_value r_val_proc = mrb_funcall_argv(mrb, barInstance, mrb_intern(mrb, "execute_with_proc"), 1, &proc);
+    debugBlock([NSString stringWithFormat:@"Return from proc => %d", r_val_proc.value.i]);
+    
+    mrb_value r_val_yield = mrb_funcall_with_block(mrb, barInstance, mrb_intern(mrb, "execute_with_yield"), 0, NULL, proc);
+    debugBlock([NSString stringWithFormat:@"Return from yield => %d", r_val_yield.value.i]);
 }
 
 @end

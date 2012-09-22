@@ -24,6 +24,15 @@ class Bar
     @x += 10
     @y += 10
   end
+    
+  def execute_with_proc(p)
+    p.call(@x, @y)
+  end
+    
+  def execute_with_yield(&b)
+    yield @x, @y
+  end
+
 end
 
 Foo::print("Calling Foo::simple()")

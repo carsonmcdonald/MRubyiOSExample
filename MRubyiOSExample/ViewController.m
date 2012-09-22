@@ -50,6 +50,7 @@
     [fooUtil loadFromBundle:@"example.mrb"];
     [fooUtil execute];
     [fooUtil updateBarLocation];
+    [fooUtil blockExample];
     [fooUtil cleanup];
 }
 

@@ -28,5 +28,6 @@ typedef void (^ DebugBlock)(NSString *);
 - (void)execute;
 - (void)cleanup;
 - (void)updateBarLocation;
+- (void)blockExample;
 
 @end

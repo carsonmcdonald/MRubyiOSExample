@@ -151,7 +151,7 @@ static mrb_value bar_execute_with(mrb_state *mrb, mrb_value obj)
     if (fp == NULL) {
         NSLog(@"Error loading file...");
     } else {
-        irep_number = mrb_load_irep(mrb, fp);
+        irep_number = mrb_read_irep_file(mrb, fp);
         fclose(fp);
     }
 }

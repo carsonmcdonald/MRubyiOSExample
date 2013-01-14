@@ -18,7 +18,7 @@ extern "C" {
 int mrb_dump_irep(mrb_state*,int,FILE*);
 int mrb_read_irep(mrb_state*,const char*);
 int mrb_read_irep_file(mrb_state*,FILE*);
-mrb_value mrb_load_irep(mrb_state*,const char*);
+/* mrb_value mrb_load_irep(mrb_state*,const char*); */ /* declared in <irep.h> */
 mrb_value mrb_load_irep_file(mrb_state*,FILE*);
 
 int mrb_bdump_irep(mrb_state *mrb, int n, FILE *f,const char *initname);
@@ -28,7 +28,11 @@ int mrb_bdump_irep(mrb_state *mrb, int n, FILE *f,const char *initname);
 #define DUMP_TYPE_BIN  1
 #define DUMP_TYPE_HEX  2
 
-/* dump/load error code */
+/* dump/load error code
+ *
+ * NOTE: MRB_DUMP_GENERAL_FAILURE is caused by
+ * unspecified issues like malloc failed.
+ */
 #define MRB_DUMP_OK                     0
 #define MRB_DUMP_GENERAL_FAILURE        -1
 #define MRB_DUMP_WRITE_FAULT            -2

@@ -51,6 +51,9 @@
 //#define DISABLE_STRUCT	/* Struct class */
 //#define DISABLE_STDIO		/* use of stdio */
 
+/* Now DISABLE_GEMS is added as a command line flag in Rakefile, */
+/* we do not need to set it here. */
+
 #undef  HAVE_UNISTD_H /* WINDOWS */
 #define HAVE_UNISTD_H /* LINUX */
 
@@ -126,6 +129,7 @@ typedef short mrb_sym;
 # define snprintf _snprintf
 # define isnan _isnan
 # define isinf(n) (!_finite(n) && !_isnan(n))
+# define strtoll _strtoi64
 #endif
 
 #endif  /* MRUBYCONF_H */

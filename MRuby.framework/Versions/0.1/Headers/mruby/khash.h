@@ -41,11 +41,11 @@ static const uint8_t __m[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
   v |= v >> 8;\
   v |= v >> 16;\
   v++;\
-} while (0);
+} while (0)
 
 /* declare struct kh_xxx and kh_xxx_funcs
 
-   name: ash name
+   name: hash name
    khkey_t: key data type
    khval_t: value data type
    kh_is_map: (not implemented / not used in RiteVM)
@@ -77,7 +77,7 @@ static const uint8_t __m[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
 
 /* define kh_xxx_funcs
 
-   name: ash name
+   name: hash name
    khkey_t: key data type
    khval_t: value data type
    kh_is_map: (not implemented / not used in RiteVM)

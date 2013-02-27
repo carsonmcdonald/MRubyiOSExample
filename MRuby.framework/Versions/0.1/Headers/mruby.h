@@ -133,6 +133,10 @@ typedef struct mrb_state {
   struct RNode *local_svar;/* regexp */
 #endif
 
+#ifdef ENABLE_DEBUG
+  void (*code_fetch_hook)(struct mrb_state* mrb, struct mrb_irep *irep, mrb_code *pc, mrb_value *regs);
+#endif
+
   struct RClass *eException_class;
   struct RClass *eStandardError_class;
 
@@ -268,7 +272,6 @@ mrb_value mrb_obj_clone(mrb_state *mrb, mrb_value self);
 mrb_value mrb_exc_new(mrb_state *mrb, struct RClass *c, const char *ptr, long len);
 void mrb_exc_raise(mrb_state *mrb, mrb_value exc);
 
-int mrb_block_given_p(void);
 void mrb_raise(mrb_state *mrb, struct RClass *c, const char *msg);
 void mrb_raisef(mrb_state *mrb, struct RClass *c, const char *fmt, ...);
 void mrb_warn(const char *fmt, ...);
@@ -306,10 +309,6 @@ typedef enum call_type {
     CALL_VCALL,
     CALL_TYPE_MAX
 } call_type;
-
-/* compar.c */
-void mrb_cmperr(mrb_state *mrb, mrb_value x, mrb_value y);
-int mrb_cmpint(mrb_state *mrb, mrb_value val, mrb_value a, mrb_value b);
 
 #ifndef ANYARGS
 # ifdef __cplusplus

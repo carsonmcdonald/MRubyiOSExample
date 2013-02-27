@@ -72,6 +72,7 @@ struct mrb_parser_state {
 
   enum mrb_lex_state_enum lstate;
   int sterm;
+  int regexp;
 
   unsigned int cond_stack;
   unsigned int cmdarg_stack;
@@ -101,7 +102,6 @@ struct mrb_parser_state {
 
 struct mrb_parser_state* mrb_parser_new(mrb_state*);
 void mrb_parser_free(struct mrb_parser_state*);
-const char *mrb_parser_filename(struct mrb_parser_state*, const char*);
 void mrb_parser_parse(struct mrb_parser_state*,mrbc_context*);
 
 /* utility functions */

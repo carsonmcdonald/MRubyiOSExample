@@ -23,7 +23,7 @@
 //#define MRB_ENDIAN_BIG
 
 /* argv max size in mrb_funcall */
-//#define MRB_FUNCALL_ARGC_MAX 16 
+//#define MRB_FUNCALL_ARGC_MAX 16
 
 /* number of object per heap page */
 //#define MRB_HEAP_PAGE_SIZE 1024
@@ -34,6 +34,9 @@
 /* initial size for IV khash; ignored when MRB_USE_IV_SEGLIST is set */
 //#define MRB_IVHASH_INIT_SIZE 8
 
+/* initial size for IREP array */
+//#define MRB_IREP_ARRAY_INIT_SIZE (256u)
+
 /* default size of khash table bucket */
 //#define KHASH_DEFAULT_SIZE 32
 
@@ -43,9 +46,11 @@
 /* page size of memory pool */
 //#define POOL_PAGE_SIZE 16000
 
+/* initial minimum size for string buffer */
+//#define MRB_STR_BUF_MIN_SIZE 128
+
+
 /* -DDISABLE_XXXX to drop following features */
-//#define DISABLE_SPRINTF	/* Kernel.sprintf method */
-//#define DISABLE_STRUCT	/* Struct class */
 //#define DISABLE_STDIO		/* use of stdio */
 
 /* -DENABLE_XXXX to enable following features */
@@ -63,7 +68,7 @@
 # define str_to_mrb_float(buf) strtod(buf, NULL)
 #endif
 
-#ifdef MRB_INT64
+#if defined(MRB_INT64)
 # ifdef MRB_NAN_BOXING
 #  error Cannot use NaN boxing when mrb_int is 64bit
 # else
@@ -72,6 +77,11 @@
 #  define MRB_INT_MAX INT64_MAX
 #  define str_to_mrb_int(buf) strtoll(buf, NULL, 10)
 # endif
+#elif defined(MRB_INT16)
+  typedef int16_t mrb_int;
+# define MRB_INT_MIN INT16_MIN
+# define MRB_INT_MAX INT16_MAX
+# define str_to_mrb_int(buf) strtol(buf, NULL, 10)
 #else
   typedef int32_t mrb_int;
 # define MRB_INT_MIN INT32_MIN
@@ -81,12 +91,6 @@
 typedef short mrb_sym;
 
 /* define ENABLE_XXXX from DISABLE_XXX */
-#ifndef DISABLE_SPRINTF
-#define ENABLE_SPRINTF
-#endif
-#ifndef DISABLE_STRUCT
-#define ENABLE_STRUCT
-#endif
 #ifndef DISABLE_STDIO
 #define ENABLE_STDIO
 #endif
@@ -111,8 +115,14 @@ typedef short mrb_sym;
 # define strtoll _strtoi64
 # define PRId32 "I32d"
 # define PRId64 "I64d"
+typedef unsigned int mrb_bool;
 #else
 # include <inttypes.h>
+typedef _Bool mrb_bool;
+#endif
+
+#ifdef ENABLE_STDIO
+# include <stdio.h>
 #endif
 
 #endif  /* MRUBYCONF_H */

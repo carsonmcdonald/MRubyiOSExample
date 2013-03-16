@@ -164,7 +164,7 @@ static mrb_value bar_execute_with(mrb_state *mrb, mrb_value obj)
     mrb_value argv[1];
     
     // Example of setting an input value using an NSString
-    argv[0] = mrb_str_new2(mrb, [@"Bar1" UTF8String]);
+    argv[0] = mrb_str_new_cstr(mrb, [@"Bar1" UTF8String]);
     
     barInstance = mrb_class_new_instance(mrb, 1, argv, mrb_class_get(mrb, "Bar"));
 }

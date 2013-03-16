@@ -21,9 +21,9 @@ typedef struct mrbc_context {
   int slen;
   char *filename;
   short lineno;
-  int capture_errors:1;
-  int dump_result:1;
-  int no_exec:1;
+  mrb_bool capture_errors:1;
+  mrb_bool dump_result:1;
+  mrb_bool no_exec:1;
 } mrbc_context;
 
 mrbc_context* mrbc_context_new(mrb_state *mrb);
@@ -59,6 +59,21 @@ struct mrb_parser_message {
   char* message;
 };
 
+/* heredoc parse type */
+enum heredoc_type {
+  heredoc_type_norm,            /* <<EOH */
+  heredoc_type_quote,		/* <<'EOH' */
+};
+/* heredoc structure */
+struct mrb_parser_heredoc_info {
+  enum heredoc_type type;
+  mrb_bool allow_indent:1;
+  mrb_bool line_head:1;
+  const char *term;
+  int term_len;
+  mrb_ast_node *doc;
+};
+
 /* parser structure */
 struct mrb_parser_state {
   mrb_state *mrb;
@@ -71,7 +86,7 @@ struct mrb_parser_state {
   int column;
 
   enum mrb_lex_state_enum lstate;
-  int sterm;
+  int sterm;	/* string terminator :  ' ' means heredoc */
   int regexp;
 
   unsigned int cond_stack;
@@ -85,7 +100,10 @@ struct mrb_parser_state {
   char buf[1024];
   int bidx;
 
-  mrb_ast_node *heredoc;
+  mrb_ast_node *heredocs;	/* list of mrb_parser_heredoc_info* */
+  mrb_ast_node *parsing_heredoc;
+  mrb_bool heredoc_starts_nextline:1;
+  mrb_bool heredoc_end_now:1; /* for mirb */
 
   void *ylval;
 

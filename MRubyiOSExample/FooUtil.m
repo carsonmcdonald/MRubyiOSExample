@@ -143,17 +143,40 @@ static mrb_value bar_execute_with(mrb_state *mrb, mrb_value obj)
     debugBlock = aDebugBlock;
 }
 
-- (void)loadFromBundle: (NSString *)filename
+- (bool)loadFromBundle: (NSString *)filename
 {
     NSString *bundleLocation = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:filename];
     
+    if(!bundleLocation)
+    {
+        UIAlertView *errorView = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"%@ not found in bundle.", filename] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [errorView show];
+        
+        return NO;
+    }
+    
     FILE *fp = fopen([bundleLocation UTF8String], "rb");
-    if (fp == NULL) {
-        NSLog(@"Error loading file...");
-    } else {
+    if (fp == NULL)
+    {
+        UIAlertView *errorView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Error loading bundled mrb file." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [errorView show];
+        
+        return NO;
+    }
+    else
+    {
         irep_number = mrb_read_irep_file(mrb, fp);
         fclose(fp);
+        if(irep_number < 0)
+        {
+            UIAlertView *errorView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Error reading bundled mrb irep." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [errorView show];
+            
+            return NO;
+        }
     }
+    
+    return YES;
 }
 
 - (void)execute

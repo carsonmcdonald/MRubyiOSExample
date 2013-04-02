@@ -38,20 +38,25 @@
         // You can also just log to the console if you want
         // NSLog(@"Debug: %@", debug);
         
-        if ([executionOutputTextView.text length] != 0) {
+        if ([executionOutputTextView.text length] != 0)
+        {
             executionOutputTextView.text = [NSString stringWithFormat:@"%@\n%@", executionOutputTextView.text, debug];
-        } else {
+        }
+        else
+        {
             executionOutputTextView.text = debug;
         }
         
     }];
     
     FooUtil *fooUtil = [FooUtil sharedInstance];
-    [fooUtil loadFromBundle:@"example.mrb"];
-    [fooUtil execute];
-    [fooUtil updateBarLocation];
-    [fooUtil blockExample];
-    [fooUtil cleanup];
+    if([fooUtil loadFromBundle:@"example.mrb"])
+    {
+        [fooUtil execute];
+        [fooUtil updateBarLocation];
+        [fooUtil blockExample];
+        [fooUtil cleanup];
+    }
 }
 
 @end

@@ -24,7 +24,7 @@ typedef void (^ DebugBlock)(NSString *);
 + (FooUtil *)sharedInstance;
 + (void)setDebugBlock:(DebugBlock) aDebugBlock;
 
-- (void)loadFromBundle: (NSString *)filename;
+- (bool)loadFromBundle: (NSString *)filename;
 - (void)execute;
 - (void)cleanup;
 - (void)updateBarLocation;

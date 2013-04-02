@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B65E3B60170AE80800523C00 /* example.mrb in Resources */ = {isa = PBXBuildFile; fileRef = B65E3B5F170AE80800523C00 /* example.mrb */; };
 		B66BF8221556D34D0026D500 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B66BF8211556D34D0026D500 /* UIKit.framework */; };
 		B66BF8241556D34D0026D500 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B66BF8231556D34D0026D500 /* Foundation.framework */; };
 		B66BF8261556D34D0026D500 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B66BF8251556D34D0026D500 /* CoreGraphics.framework */; };
@@ -18,12 +19,12 @@
 		B66BF8441556D4F10026D500 /* example.rb in Resources */ = {isa = PBXBuildFile; fileRef = B66BF83E1556D4F00026D500 /* example.rb */; };
 		B66BF8451556D4F10026D500 /* FooData.m in Sources */ = {isa = PBXBuildFile; fileRef = B66BF8401556D4F00026D500 /* FooData.m */; };
 		B66BF8461556D4F10026D500 /* FooUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B66BF8421556D4F10026D500 /* FooUtil.m */; };
-		B66BF8491556D5140026D500 /* example.mrb in Resources */ = {isa = PBXBuildFile; fileRef = B66BF8481556D5140026D500 /* example.mrb */; };
 		B66BF84B1556D60B0026D500 /* MRuby.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B66BF84A1556D60B0026D500 /* MRuby.framework */; };
 		B6FBD16916A44B8300F27D50 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B6FBD16816A44B8300F27D50 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B65E3B5F170AE80800523C00 /* example.mrb */ = {isa = PBXFileReference; lastKnownFileType = file; path = example.mrb; sourceTree = "<group>"; };
 		B66BF81D1556D34D0026D500 /* MRubyiOSExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MRubyiOSExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B66BF8211556D34D0026D500 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B66BF8231556D34D0026D500 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -42,7 +43,6 @@
 		B66BF8401556D4F00026D500 /* FooData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FooData.m; sourceTree = "<group>"; };
 		B66BF8411556D4F00026D500 /* FooUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FooUtil.h; sourceTree = "<group>"; };
 		B66BF8421556D4F10026D500 /* FooUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FooUtil.m; sourceTree = "<group>"; };
-		B66BF8481556D5140026D500 /* example.mrb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = example.mrb; sourceTree = "<group>"; };
 		B66BF84A1556D60B0026D500 /* MRuby.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MRuby.framework; sourceTree = "<group>"; };
 		B6FBD16816A44B8300F27D50 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -94,7 +94,7 @@
 		B66BF8271556D34D0026D500 /* MRubyiOSExample */ = {
 			isa = PBXGroup;
 			children = (
-				B66BF8481556D5140026D500 /* example.mrb */,
+				B65E3B5F170AE80800523C00 /* example.mrb */,
 				B66BF83E1556D4F00026D500 /* example.rb */,
 				B66BF83F1556D4F00026D500 /* FooData.h */,
 				B66BF8401556D4F00026D500 /* FooData.m */,
@@ -174,8 +174,8 @@
 				B66BF82C1556D34D0026D500 /* InfoPlist.strings in Resources */,
 				B66BF8381556D34D0026D500 /* ViewController.xib in Resources */,
 				B66BF8441556D4F10026D500 /* example.rb in Resources */,
-				B66BF8491556D5140026D500 /* example.mrb in Resources */,
 				B6FBD16916A44B8300F27D50 /* Default-568h@2x.png in Resources */,
+				B65E3B60170AE80800523C00 /* example.mrb in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

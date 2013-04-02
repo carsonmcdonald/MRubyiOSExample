@@ -18,7 +18,7 @@ int mrb_dump_irep_binary(mrb_state*, size_t, int, FILE*);
 int mrb_dump_irep_cfunc(mrb_state *mrb, size_t n, int, FILE *f, const char *initname);
 int32_t mrb_read_irep_file(mrb_state*, FILE*);
 #endif
-int mrb_read_irep(mrb_state*, const uint8_t*);
+int32_t mrb_read_irep(mrb_state*, const uint8_t*);
 
 #ifdef ENABLE_STDIO
 mrb_value mrb_load_irep_file(mrb_state*,FILE*);
@@ -141,9 +141,8 @@ bin_to_uint8(const uint8_t *bin)
 }
 
 /* crc.c */
-uint32_t
-calc_crc_16_ccitt(const uint8_t *src, uint32_t nbytes, uint16_t crcwk);
-
+uint16_t
+calc_crc_16_ccitt(const uint8_t *src, size_t nbytes, uint16_t crc);
 #if defined(__cplusplus)
 }  /* extern "C" { */
 #endif

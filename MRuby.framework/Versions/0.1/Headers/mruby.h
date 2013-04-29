@@ -1,5 +1,5 @@
 /*
-** mruby - An embeddable Ruby implementaion
+** mruby - An embeddable Ruby implementation
 **
 ** Copyright (c) mruby developers 2010-2012
 **
@@ -36,8 +36,8 @@ extern "C" {
 
 #include "mruby/value.h"
 
-typedef int32_t mrb_code;
-typedef int32_t mrb_aspec;
+typedef uint32_t mrb_code;
+typedef uint32_t mrb_aspec;
 
 struct mrb_state;
 
@@ -170,22 +170,35 @@ struct RClass * mrb_define_class_under(mrb_state *mrb, struct RClass *outer, con
 struct RClass * mrb_define_module_under(mrb_state *mrb, struct RClass *outer, const char *name);
 
 /* required arguments */
-#define ARGS_REQ(n)     ((mrb_aspec)((n)&0x1f) << 19)
+#define MRB_ARGS_REQ(n)     ((mrb_aspec)((n)&0x1f) << 18)
 /* optional arguments */
-#define ARGS_OPT(n)     ((mrb_aspec)((n)&0x1f) << 14)
+#define MRB_ARGS_OPT(n)     ((mrb_aspec)((n)&0x1f) << 13)
+/* mandatory and optinal arguments */
+#define MRB_ARGS_ARG(n1,n2)   (MRB_ARGS_REQ(n1)|MRB_ARGS_OPT(n2))
+
 /* rest argument */
-#define ARGS_REST()     ((mrb_aspec)(1 << 13))
+#define MRB_ARGS_REST()     ((mrb_aspec)(1 << 12))
 /* required arguments after rest */
-#define ARGS_POST(n)    ((mrb_aspec)((n)&0x1f) << 8)
+#define MRB_ARGS_POST(n)    ((mrb_aspec)((n)&0x1f) << 7)
 /* keyword arguments (n of keys, kdict) */
-#define ARGS_KEY(n1,n2) ((mrb_aspec)((((n1)&0x1f) << 3) | ((n2)?(1<<2):0)))
+#define MRB_ARGS_KEY(n1,n2) ((mrb_aspec)((((n1)&0x1f) << 2) | ((n2)?(1<<1):0)))
 /* block argument */
-#define ARGS_BLOCK()    ((mrb_aspec)(1 << 1))
+#define MRB_ARGS_BLOCK()    ((mrb_aspec)1)
 
 /* accept any number of arguments */
-#define ARGS_ANY()      ARGS_REST()
+#define MRB_ARGS_ANY()      ARGS_REST()
 /* accept no arguments */
-#define ARGS_NONE()     ((mrb_aspec)0)
+#define MRB_ARGS_NONE()     ((mrb_aspec)0)
+
+/* compatibility macros; will be removed */
+#define ARGS_REQ(n)         MRB_ARGS_REQ(n)
+#define ARGS_OPT(n)         MRB_ARGS_OPT(n)
+#define ARGS_REST()         MRB_ARGS_REST()
+#define ARGS_POST(n)        MRB_ARGS_POST()
+#define ARGS_KEY(n1,n2)     MRB_ARGS_KEY(n1,n2)
+#define ARGS_BLOCK()        MRB_ARGS_BLOCK()
+#define ARGS_ANY()          MRB_ARGS_ANY()
+#define ARGS_NONE()         MRB_ARGS_NONE()
 
 int mrb_get_args(mrb_state *mrb, const char *format, ...);
 
@@ -195,6 +208,9 @@ mrb_value mrb_funcall_with_block(mrb_state*, mrb_value, mrb_sym, int, mrb_value*
 mrb_sym mrb_intern_cstr(mrb_state*,const char*);
 mrb_sym mrb_intern2(mrb_state*,const char*,size_t);
 mrb_sym mrb_intern_str(mrb_state*,mrb_value);
+mrb_value mrb_check_intern_cstr(mrb_state*,const char*);
+mrb_value mrb_check_intern(mrb_state*,const char*,size_t);
+mrb_value mrb_check_intern_str(mrb_state*,mrb_value);
 const char *mrb_sym2name(mrb_state*,mrb_sym);
 const char *mrb_sym2name_len(mrb_state*,mrb_sym,size_t*);
 mrb_value mrb_sym2str(mrb_state*,mrb_sym);
@@ -324,13 +340,6 @@ typedef enum call_type {
     CALL_TYPE_MAX
 } call_type;
 
-#ifndef ANYARGS
-# ifdef __cplusplus
-#   define ANYARGS ...
-# else
-#   define ANYARGS
-# endif
-#endif
 void mrb_define_alias(mrb_state *mrb, struct RClass *klass, const char *name1, const char *name2);
 const char *mrb_class_name(mrb_state *mrb, struct RClass* klass);
 void mrb_define_global_const(mrb_state *mrb, const char *name, mrb_value val);

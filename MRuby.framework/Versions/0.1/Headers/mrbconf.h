@@ -116,6 +116,7 @@ typedef short mrb_sym;
 #endif
 
 #ifdef _MSC_VER
+# define _ALLOW_KEYWORD_MACROS
 # include <float.h>
 # define inline __inline
 # define snprintf _snprintf
@@ -132,18 +133,8 @@ typedef short mrb_sym;
 # define PRIo64 "I64o"
 # define PRIx64 "I64x"
 # define PRIX64 "I64X"
-# ifdef __cplusplus
-typedef bool mrb_bool;
-# else
-typedef unsigned int mrb_bool;
-# endif
 #else
 # include <inttypes.h>
-# ifdef __cplusplus
-typedef bool mrb_bool;
-# else
-typedef _Bool mrb_bool;
-# endif
 #endif
 
 #ifdef ENABLE_STDIO

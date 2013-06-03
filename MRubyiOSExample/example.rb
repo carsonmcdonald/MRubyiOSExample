@@ -1,23 +1,10 @@
-#
-# NB current version of mruby doesn't support attr_accessor
-#
 class Bar
+  attr_reader :name, :x, :y
+    
   def initialize(name)
     @name = name
     @x = 0
     @y = 0
-  end
-
-  def name
-    @name
-  end
-
-  def x
-    @x
-  end
-
-  def y
-    @y
   end
 
   def move_bar

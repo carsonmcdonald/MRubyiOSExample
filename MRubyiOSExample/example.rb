@@ -22,6 +22,22 @@ class Bar
 
 end
 
+class FiberOne
+    def initialize(foo)
+        @foo = foo
+        @foo_fiber = Fiber.new {
+            @foo.increment()
+            Fiber.yield @foo.count
+            @foo.increment()
+            Fiber.yield @foo.count
+        }
+    end
+    
+    def go
+        @foo_fiber.resume()
+    end
+end
+
 Foo::print("Calling Foo::simple()")
 Foo::simple()
 
@@ -34,6 +50,10 @@ f.increment()
 Foo::print("Count is currently: #{f.count}")
 f.increment()
 Foo::print("Count is currently: #{f.count}")
+
+f_one = FiberOne.new(f)
+Foo::print("Count is (Fiber): #{f_one.go()}")
+Foo::print("Count is (Fiber): #{f_one.go()}")
 
 Foo::print("Setting variable to nil")
 f = nil

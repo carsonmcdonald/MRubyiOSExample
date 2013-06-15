@@ -57,5 +57,6 @@ Foo::print("Count is (Fiber): #{f_one.go()}")
 
 Foo::print("Setting variable to nil")
 f = nil
+f_one = nil
 
 Foo::print("Done")

@@ -60,3 +60,5 @@ f = nil
 f_one = nil
 
 Foo::print("Done")
+
+"A return value"

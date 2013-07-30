@@ -181,7 +181,14 @@ static mrb_value bar_execute_with(mrb_state *mrb, mrb_value obj)
 
 - (void)execute
 {
-    mrb_run(mrb, mrb_proc_new(mrb, mrb->irep[irep_number]), mrb_top_self(mrb));
+    mrb_value return_value = mrb_run(mrb, mrb_proc_new(mrb, mrb->irep[irep_number]), mrb_top_self(mrb));
+    
+    if(!mrb_eql(mrb, return_value, mrb_nil_value()))
+    {
+        struct RString *str = mrb_str_ptr(mrb_funcall(mrb, return_value, "inspect", 0));
+
+        debugBlock([NSString stringWithFormat:@"Return value: %s", str->ptr]);
+    }
     
     // Set up an example instance of the Bar class from the script that was just run
     mrb_value argv[1];

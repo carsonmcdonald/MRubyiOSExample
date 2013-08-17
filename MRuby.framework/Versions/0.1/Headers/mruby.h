@@ -107,7 +107,6 @@ typedef struct mrb_state {
   struct mrb_irep **irep;                 /* program data array */
   size_t irep_len, irep_capa;
 
-  mrb_sym init_sym;
   struct RObject *top_self;
   struct RClass *object_class;            /* Object class */
   struct RClass *class_class;
@@ -134,8 +133,8 @@ typedef struct mrb_state {
 
   enum gc_state gc_state; /* state of gc */
   int current_white_part; /* make white object by white_part */
-  struct RBasic *gray_list; /* list of gray objects */
-  struct RBasic *variable_gray_list; /* list of objects to be traversed atomically */
+  struct RBasic *gray_list; /* list of gray objects to be traversed incrementally */
+  struct RBasic *atomic_gray_list; /* list of objects to be traversed atomically */
   size_t gc_live_after_mark;
   size_t gc_threshold;
   int gc_interval_ratio;
@@ -173,6 +172,9 @@ void mrb_define_module_function(mrb_state*, struct RClass*, const char*, mrb_fun
 void mrb_define_const(mrb_state*, struct RClass*, const char *name, mrb_value);
 void mrb_undef_method(mrb_state*, struct RClass*, const char*);
 void mrb_undef_class_method(mrb_state*, struct RClass*, const char*);
+mrb_value mrb_obj_new(mrb_state *mrb, struct RClass *c, int argc, mrb_value *argv);
+#define mrb_class_new_instance(mrb,argc,argv,c) mrb_obj_new(mrb,c,argc,argv)
+mrb_value mrb_class_obj_new(mrb_state *mrb, struct RClass *c, int argc, mrb_value *argv);
 mrb_value mrb_instance_new(mrb_state *mrb, mrb_value cv);
 struct RClass * mrb_class_new(mrb_state *mrb, struct RClass *super);
 struct RClass * mrb_module_new(mrb_state *mrb);
@@ -273,6 +275,7 @@ mrb_value mrb_inspect(mrb_state *mrb, mrb_value obj);
 mrb_bool mrb_eql(mrb_state *mrb, mrb_value obj1, mrb_value obj2);
 
 void mrb_garbage_collect(mrb_state*);
+void mrb_full_gc(mrb_state*);
 void mrb_incremental_gc(mrb_state *);
 int mrb_gc_arena_save(mrb_state*);
 void mrb_gc_arena_restore(mrb_state*,int);
@@ -348,8 +351,6 @@ void mrb_print_error(mrb_state *mrb);
 
 mrb_value mrb_yield(mrb_state *mrb, mrb_value b, mrb_value arg);
 mrb_value mrb_yield_argv(mrb_state *mrb, mrb_value b, int argc, mrb_value *argv);
-mrb_value mrb_class_new_instance(mrb_state *mrb, int, mrb_value*, struct RClass *);
-mrb_value mrb_class_new_instance_m(mrb_state *mrb, mrb_value klass);
 
 void mrb_gc_protect(mrb_state *mrb, mrb_value obj);
 mrb_value mrb_to_int(mrb_state *mrb, mrb_value val);
@@ -380,6 +381,13 @@ void* mrb_pool_alloc(struct mrb_pool*, size_t);
 void* mrb_pool_realloc(struct mrb_pool*, void*, size_t oldlen, size_t newlen);
 mrb_bool mrb_pool_can_realloc(struct mrb_pool*, void*, size_t);
 void* mrb_alloca(mrb_state *mrb, size_t);
+
+#ifdef MRB_DEBUG
+#include <assert.h>
+#define mrb_assert(p) assert(p)
+#else
+#define mrb_assert(p) ((void)0)
+#endif
 
 #if defined(__cplusplus)
 }  /* extern "C" { */

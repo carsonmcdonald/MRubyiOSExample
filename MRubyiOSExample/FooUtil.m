@@ -31,7 +31,7 @@ static mrb_value foo_class_increment(mrb_state *mrb, mrb_value obj)
     FooData *fooData = nil;
     
     mrb_value value_fooData = mrb_iv_get(mrb, obj, mrb_intern(mrb, "fooData"));
-    Data_Get_Struct(mrb, value_fooData, &foo_data_type, fooData);
+    fooData = DATA_GET_PTR(mrb, value_fooData, &foo_data_type, FooData);
     if (!fooData) {
         mrb_raise(mrb, E_ARGUMENT_ERROR, "Internal state corrupted");
     }    
@@ -46,7 +46,7 @@ static mrb_value foo_class_get_count(mrb_state *mrb, mrb_value obj)
     FooData *fooData = nil;
     
     mrb_value value_fooData = mrb_iv_get(mrb, obj, mrb_intern(mrb, "fooData"));
-    Data_Get_Struct(mrb, value_fooData, &foo_data_type, fooData);
+    fooData = DATA_GET_PTR(mrb, value_fooData, &foo_data_type, FooData);
     if (!fooData) {
         mrb_raise(mrb, E_ARGUMENT_ERROR, "Internal state corrupted");
     }    

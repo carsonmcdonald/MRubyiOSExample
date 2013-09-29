@@ -37,7 +37,7 @@ void mrbc_partial_hook(mrb_state *mrb, mrbc_context *c, int (*partial_hook)(stru
 /* AST node structure */
 typedef struct mrb_ast_node {
   struct mrb_ast_node *car, *cdr;
-  uint16_t lineno, filename;
+  uint16_t lineno, filename_index;
 } mrb_ast_node;
 
 /* lexer states */
@@ -128,9 +128,10 @@ struct mrb_parser_state {
   char buf[MRB_PARSER_BUF_SIZE];
   int bidx;
 
-  mrb_ast_node *heredocs;	/* list of mrb_parser_heredoc_info* */
+  mrb_ast_node *all_heredocs;	/* list of mrb_parser_heredoc_info* */
+  mrb_ast_node *heredocs_from_nextline;
   mrb_ast_node *parsing_heredoc;
-  mrb_bool heredoc_starts_nextline:1;
+  mrb_ast_node *lex_strterm_before_heredoc;
   mrb_bool heredoc_end_now:1; /* for mirb */
 
   void *ylval;

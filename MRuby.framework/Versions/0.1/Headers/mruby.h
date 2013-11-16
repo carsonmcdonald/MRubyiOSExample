@@ -105,8 +105,6 @@ typedef struct mrb_state {
 
   struct RObject *exc;                    /* exception */
   struct iv_tbl *globals;                 /* global variable table */
-  struct mrb_irep **irep;                 /* program data array */
-  size_t irep_len, irep_capa;
 
   struct RObject *top_self;
   struct RClass *object_class;            /* Object class */
@@ -256,7 +254,6 @@ mrb_value mrb_str_new_static(mrb_state *mrb, const char *p, size_t len);
 
 mrb_state* mrb_open(void);
 mrb_state* mrb_open_allocf(mrb_allocf, void *ud);
-void mrb_irep_free(mrb_state*, struct mrb_irep*);
 void mrb_close(mrb_state*);
 
 mrb_value mrb_top_self(mrb_state *);

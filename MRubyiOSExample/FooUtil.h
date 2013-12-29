@@ -17,7 +17,7 @@ typedef void (^ DebugBlock)(NSString *);
     mrb_state *mrb;
     struct RClass* foo_module;
     struct RClass* foo_class;
-    int irep_number;
+    mrb_irep *irep;
     mrb_value barInstance;
 }
 

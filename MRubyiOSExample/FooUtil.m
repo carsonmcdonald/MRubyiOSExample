@@ -21,7 +21,7 @@ static mrb_value foo_class_init(mrb_state *mrb, mrb_value obj)
     
     FooData *fooData = [[FooData alloc] init];
     
-    mrb_iv_set(mrb, obj, mrb_intern(mrb, "fooData"), mrb_obj_value(Data_Wrap_Struct(mrb, mrb->object_class, &foo_data_type, (void*) fooData)));
+    mrb_iv_set(mrb, obj, mrb_intern_cstr(mrb, "fooData"), mrb_obj_value(Data_Wrap_Struct(mrb, mrb->object_class, &foo_data_type, (void*) fooData)));
     
     return obj;
 }
@@ -30,7 +30,7 @@ static mrb_value foo_class_increment(mrb_state *mrb, mrb_value obj)
 {
     FooData *fooData = nil;
     
-    mrb_value value_fooData = mrb_iv_get(mrb, obj, mrb_intern(mrb, "fooData"));
+    mrb_value value_fooData = mrb_iv_get(mrb, obj, mrb_intern_cstr(mrb, "fooData"));
     fooData = DATA_GET_PTR(mrb, value_fooData, &foo_data_type, FooData);
     if (!fooData) {
         mrb_raise(mrb, E_ARGUMENT_ERROR, "Internal state corrupted");
@@ -45,7 +45,7 @@ static mrb_value foo_class_get_count(mrb_state *mrb, mrb_value obj)
 {
     FooData *fooData = nil;
     
-    mrb_value value_fooData = mrb_iv_get(mrb, obj, mrb_intern(mrb, "fooData"));
+    mrb_value value_fooData = mrb_iv_get(mrb, obj, mrb_intern_cstr(mrb, "fooData"));
     fooData = DATA_GET_PTR(mrb, value_fooData, &foo_data_type, FooData);
     if (!fooData) {
         mrb_raise(mrb, E_ARGUMENT_ERROR, "Internal state corrupted");
@@ -165,9 +165,9 @@ static mrb_value bar_execute_with(mrb_state *mrb, mrb_value obj)
     }
     else
     {
-        irep_number = mrb_read_irep_file(mrb, fp);
+        irep = mrb_read_irep_file(mrb, fp);
         fclose(fp);
-        if(irep_number < 0)
+        if(irep == NULL)
         {
             UIAlertView *errorView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Error reading bundled mrb irep." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [errorView show];
@@ -181,7 +181,7 @@ static mrb_value bar_execute_with(mrb_state *mrb, mrb_value obj)
 
 - (void)execute
 {
-    mrb_value return_value = mrb_run(mrb, mrb_proc_new(mrb, mrb->irep[irep_number]), mrb_top_self(mrb));
+    mrb_value return_value = mrb_run(mrb, mrb_proc_new(mrb, irep), mrb_top_self(mrb));
     
     if(!mrb_eql(mrb, return_value, mrb_nil_value()))
     {
@@ -206,16 +206,16 @@ static mrb_value bar_execute_with(mrb_state *mrb, mrb_value obj)
 
 - (void)updateBarLocation
 {
-    mrb_value bar_name = mrb_funcall_argv(mrb, barInstance, mrb_intern(mrb, "name"), 0, NULL);
-    mrb_value bar_x = mrb_funcall_argv(mrb, barInstance, mrb_intern(mrb, "x"), 0, NULL); 
-    mrb_value bar_y = mrb_funcall_argv(mrb, barInstance, mrb_intern(mrb, "y"), 0, NULL);
+    mrb_value bar_name = mrb_funcall_argv(mrb, barInstance, mrb_intern_cstr(mrb, "name"), 0, NULL);
+    mrb_value bar_x = mrb_funcall_argv(mrb, barInstance, mrb_intern_cstr(mrb, "x"), 0, NULL);
+    mrb_value bar_y = mrb_funcall_argv(mrb, barInstance, mrb_intern_cstr(mrb, "y"), 0, NULL);
     
     debugBlock([NSString stringWithFormat:@"Bar update location before => %s, %d, %d", mrb_str_ptr(bar_name)->ptr, bar_x.value.i, bar_x.value.i]);
     
-    mrb_funcall_argv(mrb, barInstance, mrb_intern(mrb, "move_bar"), 0, NULL);
+    mrb_funcall_argv(mrb, barInstance, mrb_intern_cstr(mrb, "move_bar"), 0, NULL);
     
-    bar_x = mrb_funcall_argv(mrb, barInstance, mrb_intern(mrb, "x"), 0, NULL); 
-    bar_y = mrb_funcall_argv(mrb, barInstance, mrb_intern(mrb, "y"), 0, NULL);
+    bar_x = mrb_funcall_argv(mrb, barInstance, mrb_intern_cstr(mrb, "x"), 0, NULL);
+    bar_y = mrb_funcall_argv(mrb, barInstance, mrb_intern_cstr(mrb, "y"), 0, NULL);
     
     debugBlock([NSString stringWithFormat:@"Bar update location after => %s, %d, %d", mrb_str_ptr(bar_name)->ptr, bar_x.value.i, bar_x.value.i]);
 }
@@ -225,10 +225,10 @@ static mrb_value bar_execute_with(mrb_state *mrb, mrb_value obj)
     struct RProc *b = mrb_proc_new_cfunc(mrb, bar_execute_with);
     mrb_value proc = mrb_obj_value(b);
     
-    mrb_value r_val_proc = mrb_funcall_argv(mrb, barInstance, mrb_intern(mrb, "execute_with_proc"), 1, &proc);
+    mrb_value r_val_proc = mrb_funcall_argv(mrb, barInstance, mrb_intern_cstr(mrb, "execute_with_proc"), 1, &proc);
     debugBlock([NSString stringWithFormat:@"Return from proc => %d", r_val_proc.value.i]);
     
-    mrb_value r_val_yield = mrb_funcall_with_block(mrb, barInstance, mrb_intern(mrb, "execute_with_yield"), 0, NULL, proc);
+    mrb_value r_val_yield = mrb_funcall_with_block(mrb, barInstance, mrb_intern_cstr(mrb, "execute_with_yield"), 0, NULL, proc);
     debugBlock([NSString stringWithFormat:@"Return from yield => %d", r_val_yield.value.i]);
 }
 

@@ -11,7 +11,7 @@
 extern "C" {
 #endif
 
-#include "mruby/compile.h"
+#include "../mruby/compile.h"
 
 enum irep_pool_type {
   IREP_TT_STRING,

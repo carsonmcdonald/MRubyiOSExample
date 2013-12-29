@@ -12,7 +12,7 @@ extern "C" {
 #endif
 
 #include "../mruby.h"
-#include "mruby/irep.h"
+#include "../mruby/irep.h"
 
 #ifdef ENABLE_STDIO
 int mrb_dump_irep_binary(mrb_state*, mrb_irep*, int, FILE*);

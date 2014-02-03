@@ -1,7 +1,7 @@
 /*
 ** mruby - An embeddable Ruby implementation
 **
-** Copyright (c) mruby developers 2010-2013
+** Copyright (c) mruby developers 2010-2014
 **
 ** Permission is hereby granted, free of charge, to any person obtaining
 ** a copy of this software and associated documentation files (the
@@ -240,7 +240,6 @@ mrb_value mrb_check_intern_str(mrb_state*,mrb_value);
 const char *mrb_sym2name(mrb_state*,mrb_sym);
 const char *mrb_sym2name_len(mrb_state*,mrb_sym,size_t*);
 mrb_value mrb_sym2str(mrb_state*,mrb_sym);
-mrb_value mrb_str_format(mrb_state *, int, const mrb_value *, mrb_value);
 
 void *mrb_malloc(mrb_state*, size_t);         /* raise RuntimeError if no mem */
 void *mrb_calloc(mrb_state*, size_t, size_t); /* ditto */
@@ -366,7 +365,6 @@ void mrb_define_alias(mrb_state *mrb, struct RClass *klass, const char *name1, c
 const char *mrb_class_name(mrb_state *mrb, struct RClass* klass);
 void mrb_define_global_const(mrb_state *mrb, const char *name, mrb_value val);
 
-mrb_value mrb_block_proc(void);
 mrb_value mrb_attr_get(mrb_state *mrb, mrb_value obj, mrb_sym id);
 
 mrb_bool mrb_respond_to(mrb_state *mrb, mrb_value obj, mrb_sym mid);

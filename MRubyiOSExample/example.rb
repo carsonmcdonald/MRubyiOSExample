@@ -38,6 +38,8 @@ class FiberOne
     end
 end
 
+Foo::print(MRUBY_DESCRIPTION)
+
 Foo::print("Calling Foo::simple()")
 Foo::simple()
 

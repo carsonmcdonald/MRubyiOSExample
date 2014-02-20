@@ -37,7 +37,6 @@ struct RString {
 
 void mrb_gc_free_str(mrb_state*, struct RString*);
 void mrb_str_modify(mrb_state*, struct RString*);
-mrb_value mrb_str_literal(mrb_state*, mrb_value);
 void mrb_str_concat(mrb_state*, mrb_value, mrb_value);
 mrb_value mrb_str_plus(mrb_state*, mrb_value, mrb_value);
 mrb_value mrb_ptr_to_str(mrb_state *, void*);
@@ -55,8 +54,8 @@ int mrb_str_offset(mrb_state *mrb, mrb_value str, int pos);
 mrb_value mrb_str_dup(mrb_state *mrb, mrb_value str);
 mrb_value mrb_str_intern(mrb_state *mrb, mrb_value self);
 mrb_value mrb_str_cat_cstr(mrb_state *, mrb_value, const char *);
-mrb_value mrb_str_to_inum(mrb_state *mrb, mrb_value str, int base, int badcheck);
-double mrb_str_to_dbl(mrb_state *mrb, mrb_value str, int badcheck);
+mrb_value mrb_str_to_inum(mrb_state *mrb, mrb_value str, int base, mrb_bool badcheck);
+double mrb_str_to_dbl(mrb_state *mrb, mrb_value str, mrb_bool badcheck);
 mrb_value mrb_str_to_str(mrb_state *mrb, mrb_value str);
 mrb_int mrb_str_hash(mrb_state *mrb, mrb_value str);
 mrb_value mrb_str_buf_append(mrb_state *mrb, mrb_value str, mrb_value str2);

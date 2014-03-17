@@ -108,15 +108,15 @@ static mrb_value bar_execute_with(mrb_state *mrb, mrb_value obj)
         foo_module = mrb_define_module(mrb, "Foo");
         
         // Define a class method not no args
-        mrb_define_class_method(mrb, foo_module, "simple", foo_simple, ARGS_NONE());
-        mrb_define_class_method(mrb, foo_module, "print", foo_print_message, ARGS_REQ(1));
+        mrb_define_class_method(mrb, foo_module, "simple", foo_simple, MRB_ARGS_NONE());
+        mrb_define_class_method(mrb, foo_module, "print", foo_print_message, MRB_ARGS_REQ(1));
         
         // Define a class and a few methods
         foo_class = mrb_define_class_under(mrb, foo_module, "FooData", mrb->object_class);
         
-        mrb_define_method(mrb, foo_class, "initialize", foo_class_init, ARGS_NONE());
-        mrb_define_method(mrb, foo_class, "increment", foo_class_increment, ARGS_NONE());
-        mrb_define_method(mrb, foo_class, "count", foo_class_get_count, ARGS_NONE());
+        mrb_define_method(mrb, foo_class, "initialize", foo_class_init, MRB_ARGS_NONE());
+        mrb_define_method(mrb, foo_class, "increment", foo_class_increment, MRB_ARGS_NONE());
+        mrb_define_method(mrb, foo_class, "count", foo_class_get_count, MRB_ARGS_NONE());
     }
     return self;
 }

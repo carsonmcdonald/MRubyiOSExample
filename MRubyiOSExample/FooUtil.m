@@ -69,28 +69,24 @@ static mrb_value foo_simple(mrb_state *mrb, mrb_value obj)
 // Message printing class method call
 static mrb_value foo_print_message(mrb_state* mrb, mrb_value obj)
 {    
-    mrb_value message;
-    mrb_get_args(mrb, "o", &message);
+    char *message = NULL;
+    mrb_get_args(mrb, "z", &message);
     
-    if (mrb_nil_p(message)) {
-        debugBlock(@"");
-    } else {
-        debugBlock([NSString stringWithFormat:@"Foo::printMessage => %s", mrb_str_ptr(message)->ptr]);
-    }
+    debugBlock([NSString stringWithFormat:@"Foo::printMessage => %s", message]);
     
     return mrb_nil_value();
 }
 
 static mrb_value bar_execute_with(mrb_state *mrb, mrb_value obj)
 {
-    mrb_value x, y;
-    mrb_get_args(mrb, "oo", &x, &y);
+    mrb_int x, y;
+    mrb_get_args(mrb, "ii", &x, &y);
     
-    debugBlock([NSString stringWithFormat:@"Values from within block: x=%d, y=%d", x.value.i, y.value.i]);
+    debugBlock([NSString stringWithFormat:@"Values from within block: x=%d, y=%d", x, y]);
     
     mrb_value count_value;
     count_value.tt = MRB_TT_FIXNUM;
-    count_value.value.i = x.value.i + y.value.i;
+    count_value.value.i = x + y;
     
     return mrb_Integer(mrb, count_value);
 }

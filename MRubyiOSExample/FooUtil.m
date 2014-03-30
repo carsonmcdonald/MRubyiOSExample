@@ -181,9 +181,9 @@ static mrb_value bar_execute_with(mrb_state *mrb, mrb_value obj)
     
     if(!mrb_eql(mrb, return_value, mrb_nil_value()))
     {
-        struct RString *str = mrb_str_ptr(mrb_funcall(mrb, return_value, "inspect", 0));
+        mrb_value str = mrb_funcall(mrb, return_value, "inspect", 0);
 
-        debugBlock([NSString stringWithFormat:@"Return value: %s", str->ptr]);
+        debugBlock([NSString stringWithFormat:@"Return value: %s", RSTRING_PTR(str)]);
     }
     
     // Set up an example instance of the Bar class from the script that was just run
@@ -206,14 +206,14 @@ static mrb_value bar_execute_with(mrb_state *mrb, mrb_value obj)
     mrb_value bar_x = mrb_funcall_argv(mrb, barInstance, mrb_intern_cstr(mrb, "x"), 0, NULL);
     mrb_value bar_y = mrb_funcall_argv(mrb, barInstance, mrb_intern_cstr(mrb, "y"), 0, NULL);
     
-    debugBlock([NSString stringWithFormat:@"Bar update location before => %s, %d, %d", mrb_str_ptr(bar_name)->ptr, bar_x.value.i, bar_x.value.i]);
+    debugBlock([NSString stringWithFormat:@"Bar update location before => %s, %d, %d", RSTRING_PTR(bar_name), bar_x.value.i, bar_x.value.i]);
     
     mrb_funcall_argv(mrb, barInstance, mrb_intern_cstr(mrb, "move_bar"), 0, NULL);
     
     bar_x = mrb_funcall_argv(mrb, barInstance, mrb_intern_cstr(mrb, "x"), 0, NULL);
     bar_y = mrb_funcall_argv(mrb, barInstance, mrb_intern_cstr(mrb, "y"), 0, NULL);
     
-    debugBlock([NSString stringWithFormat:@"Bar update location after => %s, %d, %d", mrb_str_ptr(bar_name)->ptr, bar_x.value.i, bar_x.value.i]);
+    debugBlock([NSString stringWithFormat:@"Bar update location after => %s, %d, %d", RSTRING_PTR(bar_name), bar_x.value.i, bar_x.value.i]);
 }
 
 - (void)blockExample

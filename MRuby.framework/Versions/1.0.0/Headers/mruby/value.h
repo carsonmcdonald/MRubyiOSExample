@@ -60,6 +60,7 @@ typedef short mrb_sym;
 # define snprintf _snprintf
 # if _MSC_VER < 1800
 #  include <float.h>
+#  define isfinite(n) _finite(n)
 #  define isnan _isnan
 #  define isinf(n) (!_finite(n) && !_isnan(n))
 #  define signbit(n) (_copysign(1.0, (n)) < 0.0)
@@ -75,7 +76,8 @@ typedef short mrb_sym;
 #  define PRIo64 "I64o"
 #  define PRIx64 "I64x"
 #  define PRIX64 "I64X"
-#  define INFINITY ((float)(DBL_MAX * DBL_MAX))
+static unsigned int IEEE754_INFINITY_BITS_SINGLE = 0x7F800000;
+#  define INFINITY (*(float *)&IEEE754_INFINITY_BITS_SINGLE)
 #  define NAN ((float)(INFINITY - INFINITY))
 # else
 #  include <inttypes.h>
@@ -339,6 +341,7 @@ mrb_float_value(struct mrb_state *mrb, mrb_float f)
 #define mrb_hash_p(o) (mrb_type(o) == MRB_TT_HASH)
 #define mrb_cptr_p(o) (mrb_type(o) == MRB_TT_CPTR)
 #define mrb_test(o)   mrb_bool(o)
+mrb_bool mrb_regexp_p(struct mrb_state*, mrb_value);
 
 #define MRB_OBJECT_HEADER \
   enum mrb_vtype tt:8;\
@@ -468,6 +471,8 @@ mrb_cptr_value(struct mrb_state *mrb, void *p)
 #define mrb_voidp_value(m,p) mrb_cptr_value((m),(p))
 #define mrb_voidp(o) mrb_cptr(o)
 #define mrb_voidp_p(o) mrb_cptr_p(o)
+
+#define MRB_TT_HAS_BASIC_P(tt) ((tt) >= MRB_TT_HAS_BASIC)
 
 static inline mrb_value
 mrb_false_value(void)
